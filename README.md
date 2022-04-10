@@ -6,11 +6,11 @@
 
 ## matlab full with matlab-proxy
 To pull the R2022a MATLAB image to your machine, execute:
-`docker pull dennischancs/matlab-deep-learning-full-with-proxy:r2021b`
+`docker pull dennischancs/matlab-deep-learning-full:r2021b-matlab-proxy`
 
 To launch the container with the -browser option, execute:
 
-`docker run -it --rm -p 8888:8888 --shm-size=512M dennischancs/matlab-deep-learning-full-with-proxy:r2021b -browser`
+`docker run -it --rm -p 8888:8888 --shm-size=512M dennischancs/matlab-deep-learning-full:r2021b-matlab-proxy -browser`
 
 Executing this command will display a URL on which you can access MATLAB, for example:
 http://localhost:8888/index.html

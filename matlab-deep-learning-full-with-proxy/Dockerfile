@@ -11,19 +11,19 @@
 #     python3 -m pip install .
 #---------
 
-FROM dennischancs/matlab-full:r2021b
+FROM dennischancs/matlab-deep-learning-full:r2021b
 USER root
 
 #---add [matlab-proxy](https://github.com/mathworks/matlab-proxy/blob/main/examples/Dockerfile)
 # Install dependencies for matlab-proxy
 RUN sed -i 's/\/.*ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list && \
-    apt-get update && apt-get install --no-install-recommends -y \
-    && apt-get install --no-install-recommends -y \
-    python3 \
-    python3-pip \
-    xvfb \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    apt-get update && apt-get install --no-install-recommends -y && \
+    apt-get install --no-install-recommends -y \
+    # python3 \
+    # python3-pip \
+    xvfb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # install matlab-proxy
 # online version
@@ -32,8 +32,13 @@ RUN sed -i 's/\/.*ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list && \
 # COPY --from=matlab-proxy-build /usr/bin/matlab-proxy-app /usr/local/bin/
 # COPY --from=matlab-proxy-build /usr/lib/python3.9/site-packages/matlab_proxy-0.2.7-py3.9.egg-info /usr/local/lib/python3.8/dist-packages/
 # COPY --from=matlab-proxy-build /usr/lib/python3.9/site-packages/matlab_proxy /usr/local/lib/python3.8/dist-packages/
-RUN wget && \
-    python3 -m pip install matlab_proxy*.whl
+RUN \
+    export all_proxy='socks5://127.0.0.1:20808' && \
+    wget https://raw.githubusercontent.com/dennischancs/matlab-deep-learning-full/main/matlab-proxy/matlab-proxy-0.2.7-py3-none-any.whl && \
+    python3 -m pip install matlab-proxy*.whl && \
+    rm -f matlab_proxy*.whl && \
+    unset all_proxy
+
 
 
 # Set environment variables used by integration

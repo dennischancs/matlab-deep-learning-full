@@ -1,0 +1,13 @@
+# dockerfile
+FROM node:lts-alpine3.15
+USER root
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+    apk update && apk add git gcc musl-dev python3-dev python3 py3-pip  && \
+    cd /tmp && git clone https://github.com/mathworks/matlab-proxy && \
+    cd matlab-proxy && \
+    # change serviceWorker.unregister() to serviceWorker.register(), let app to work offline and load faster
+    sed -i 's#// import \* as serviceWorker#import \* as serviceWorker#g' gui/src/index.js  && \
+    echo 'serviceWorker.register();' >> gui/src/index.js  && \
+    # python3 -m pip install .
+    # generate *.whl file in ./dist
+    python3 setup.py bdist_wheel

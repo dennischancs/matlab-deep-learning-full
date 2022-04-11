@@ -1,7 +1,7 @@
 # matlab-deep-learning-full
  docker image with full version matlab-r2021b and offline version matlab-proxy
- 
-![](https://images.weserv.nl?url=https://raw.githubusercontent.com/dennischancs/pic/main/img/202204111143082.png)
+
+![](https://images.weserv.nl?url=https://raw.githubusercontent.com/dennischancs/matlab-deep-learning-full/main/img/202204111143082.png)
 
 # [Usage](https://hub.docker.com/r/mathworks/matlab-deep-learning#How-to-use-this-image)
 

@@ -14,9 +14,7 @@ RUN sed -i '/imatlab/d' /opt/matlab/R2021b/toolbox/local/pathdef.m && \
     sed -i '/plotly_matlab/d' /opt/matlab/R2021b/toolbox/local/pathdef.m
 
 # ADD some new dependencies packages from https://github.com/mathworks-ref-arch/container-images
-RUN RUN wget https://raw.githubusercontent.com/dennischancs/matlab-deep-learning-full/main/matlab-deep-learning-full/base-dependencies.txt && \
-    python3 -m pip install matlab-proxy*.whl && \
-    sed -i 's/\/.*ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+RUN wget https://raw.githubusercontent.com/dennischancs/matlab-deep-learning-full/main/matlab-deep-learning-full/base-dependencies.txt && \
     apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
     && apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 # resolve any license manager issues

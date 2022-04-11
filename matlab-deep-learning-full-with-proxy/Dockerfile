@@ -17,7 +17,7 @@ USER root
 #---add [matlab-proxy](https://github.com/mathworks/matlab-proxy/blob/main/examples/Dockerfile)
 # Install dependencies for matlab-proxy
 RUN sed -i 's/\/.*ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
-    apt-get update && apt-get install --no-install-recommends -y python3 python3-pip xvfb && \
+    apt-get update && apt-get install --no-install-recommends -y xvfb && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install matlab-proxy

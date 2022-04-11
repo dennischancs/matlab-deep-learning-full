@@ -14,7 +14,6 @@ To launch the container with the -browser option, execute:
 
 `docker run -it --rm -p 8888:8888 --shm-size=512M dennischancs/matlab-deep-learning-full:r2021b-matlab-proxy`
 `docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab-deep-learning:r2022a -browser`
-then, enter any `port@hostname` you like, wait it prepare to ok, about 5 minutes first run.
 
 PS.: 不好用，很卡。虽然交互比noVNC好（复制粘贴方便），但在关键节点（保存文件、plot等情况下）会卡很久。可能是任务阻塞了
 

@@ -18,7 +18,7 @@ To launch the container with the -browser option, execute:
 
 `docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab-deep-learning:r2022a -browser`
 
-PS.: 不好用，很卡。虽然交互比noVNC好（复制粘贴方便），但在关键节点（保存文件、plot等情况下）会卡很久。可能是任务阻塞了。需要加载较长时间，约10分钟以上，当内存占用达到2.1Gb时，才流畅起来。
+PS.: 不好用，很卡。虽然交互比noVNC好（复制粘贴方便），但在关键节点（保存文件、plot等情况下）会卡很久。可能是任务阻塞了。每次docker容器启动，需要等待约10分钟以上，当内存占用达到2.1Gb时，才变得非常流畅、不再卡顿。
 
 Executing this command will display a URL on which you can access MATLAB, for example:
 http://localhost:8888/index.html

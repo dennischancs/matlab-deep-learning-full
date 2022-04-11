@@ -1,6 +1,7 @@
 # matlab-deep-learning-full
  docker image with full version matlab-r2021b and offline version matlab-proxy
-
+ 
+![](https://images.weserv.nl?url=https://raw.githubusercontent.com/dennischancs/pic/main/img/202204111143082.png)
 
 # [Usage](https://hub.docker.com/r/mathworks/matlab-deep-learning#How-to-use-this-image)
 
@@ -15,7 +16,7 @@ To launch the container with the -browser option, execute:
 `docker run -it --rm -p 8888:8888 --shm-size=512M dennischancs/matlab-deep-learning-full:r2021b-matlab-proxy`
 `docker run -it --rm -p 8888:8888 --shm-size=512M mathworks/matlab-deep-learning:r2022a -browser`
 
-PS.: 不好用，很卡。虽然交互比noVNC好（复制粘贴方便），但在关键节点（保存文件、plot等情况下）会卡很久。可能是任务阻塞了
+PS.: 不好用，很卡。虽然交互比noVNC好（复制粘贴方便），但在关键节点（保存文件、plot等情况下）会卡很久。可能是任务阻塞了。需要加载较长时间，约10分钟以上，当内存占用达到2.1Gb时，才流畅起来。
 
 Executing this command will display a URL on which you can access MATLAB, for example:
 http://localhost:8888/index.html

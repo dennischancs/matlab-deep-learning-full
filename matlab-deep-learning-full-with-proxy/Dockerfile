@@ -15,12 +15,6 @@ FROM dennischancs/matlab-deep-learning-full:r2021b
 USER root
 
 #---add [matlab-proxy](https://github.com/mathworks/matlab-proxy/blob/main/examples/Dockerfile)
-# Install dependencies for matlab-proxy
-RUN sed -i 's/\/.*ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
-    apt-get update && apt-get install --no-install-recommends -y xvfb && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# install matlab-proxy
 # online version
 #RUN python3 -m pip install matlab-proxy
 # offline version
@@ -30,7 +24,6 @@ RUN sed -i 's/\/.*ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
 RUN wget https://raw.githubusercontent.com/dennischancs/matlab-deep-learning-full/main/matlab-proxy/matlab-proxy-0.2.7-py3-none-any.whl && \
     python3 -m pip install matlab-proxy*.whl && \
     rm -rf matlab-proxy*.whl
-
 
 
 # Set environment variables used by integration

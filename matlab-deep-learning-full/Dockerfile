@@ -1,11 +1,5 @@
-FROM mathworks/matlab-deep-learning:r2021b AS needReplacing
+FROM dennischancs/matlab-deep-learning-scratch:r2021b
 USER root
-# delete the offical install matlab
-RUN rm -rf /opt/matlab && \
-    rm -rf /tmp/*
-
-FROM scratch
-COPY --from=needReplacing / /
 
 # ADD FULL MATLAB R2021b, auto extract local tar/gzip/bzip2/xz file
 ADD --chown=matlab:matlab Matlab-R2021b-bin.tar /
@@ -13,16 +7,8 @@ ADD --chown=matlab:matlab Matlab-R2021b-bin.tar /
 RUN sed -i '/imatlab/d' /opt/matlab/R2021b/toolbox/local/pathdef.m && \
     sed -i '/plotly_matlab/d' /opt/matlab/R2021b/toolbox/local/pathdef.m
 
-# ADD some new dependencies packages from https://github.com/mathworks-ref-arch/container-images
-RUN wget https://raw.githubusercontent.com/dennischancs/matlab-deep-learning-full/main/matlab-deep-learning-full/base-dependencies.txt && \
-    apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
-# resolve any license manager issues
-RUN ln -s /lib64/ld-linux-x86-64.so.2 /lib64/ld-lsb-x86-64.so.3
-
-ENV DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai
-
 #---recovery the ENV variables
+ENV DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai
 # NV_CUDA
 ENV NVARCH=x86_64
 ENV NVIDIA_REQUIRE_CUDA=cuda>=11.1 brand=tesla,driver>=418,driver<419 brand=tesla,driver>=440,driver<441 driver>=450

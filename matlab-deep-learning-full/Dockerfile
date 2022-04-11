@@ -1,14 +1,8 @@
 FROM mathworks/matlab-deep-learning:r2021b AS needReplacing
 USER root
-# add some new dependencies packages from https://github.com/mathworks-ref-arch/container-images
-COPY matlab-base-dependencies.txt /tmp/matlab-base-dependencies.txt
-RUN sed -i 's/\/.*ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list && \
-    apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
-    && apt-get clean && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
-# resolve any license manager issues
-RUN ln -s /lib64/ld-linux-x86-64.so.2 /lib64/ld-lsb-x86-64.so.3
 # delete the offical install matlab
-RUN rm -rf /opt/matlab
+RUN rm -rf /opt/matlab && \
+    rm -rf /tmp/*
 
 FROM scratch
 COPY --from=needReplacing / /
@@ -16,8 +10,17 @@ COPY --from=needReplacing / /
 # ADD FULL MATLAB R2021b, auto extract local tar/gzip/bzip2/xz file
 ADD --chown=matlab:matlab Matlab-R2021b-bin.tar /
 # restore defaultpath: del plotly_matlab & imatlab from Matlab-R2021b-bin.tar
-# RUN sed -i '/imatlab/d' /opt/matlab/R2021b/toolbox/local/pathdef.m && \
-#     sed -i '/plotly_matlab/d' /opt/matlab/R2021b/toolbox/local/pathdef.m
+RUN sed -i '/imatlab/d' /opt/matlab/R2021b/toolbox/local/pathdef.m && \
+    sed -i '/plotly_matlab/d' /opt/matlab/R2021b/toolbox/local/pathdef.m
+
+# ADD some new dependencies packages from https://github.com/mathworks-ref-arch/container-images
+RUN RUN wget https://raw.githubusercontent.com/dennischancs/matlab-deep-learning-full/main/matlab-deep-learning-full/base-dependencies.txt && \
+    python3 -m pip install matlab-proxy*.whl && \
+    sed -i 's/\/.*ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+    apt-get update && apt-get install --no-install-recommends -y `cat /tmp/base-dependencies.txt` \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
+# resolve any license manager issues
+RUN ln -s /lib64/ld-linux-x86-64.so.2 /lib64/ld-lsb-x86-64.so.3
 
 ENV DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai
 
